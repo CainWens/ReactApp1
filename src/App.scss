@@ -1,57 +1,52 @@
 * {
   margin: 0;
-}
-
-.App {
-  text-align: left;
-
-  .op3 {
-    opacity: 0.3;
-  }
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  box-sizing: border-box;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #838383;
   min-height: 100vh;
+
+  .App {
+    padding: 0 50px;
+  }
+}
+
+.PageMessage {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: row;
+
+  align-items: flex-start;
 }
 
-.App-link {
-  color: #61dafb;
+.MuiBox-root {
+  width: 30%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+.ViewMessage {
+  width: 70%;
+}
 
-  to {
-    transform: rotate(360deg);
-  }
+.mesBlock {
+  height: 80%;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: inherit;
+  width: 70%;
+  position: fixed;
+  top: 0;
 }
 
 .message {
-  min-width: 800px;
+  position: relative;
+
+  max-width: 500px;
   background: #545454;
-  margin: 20px 0;
+  margin: 20px 30px;
   padding: 10px 20px;
   border-radius: 20px;
+  color: white;
 
   .author {
     text-decoration: underline;
@@ -60,25 +55,27 @@
 }
 
 .formMessage {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
+  position: fixed;
+  bottom: 0px;
+  height: 20%;
   align-items: center;
+  display: flex;
+  width: 70%;
+  justify-content: space-evenly;
+
 
   * {
-    width: 400px;
-    margin: 10px 0;
-    height: 30px;
     font-size: 18px;
+    color: white;
+  }
+
+  .txtmes {
+    width: 50%;
+    scale: 1.2;
+
   }
 
   button {
-    width: 200px;
-    height: 40px;
-    border-radius: 40px;
-  }
-
-  input {
-    background-color: #ffffff;
+    scale: 1.2;
   }
 }
