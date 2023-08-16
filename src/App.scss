@@ -1,5 +1,9 @@
+* {
+  margin: 0;
+}
+
 .App {
-  text-align: center;
+  text-align: left;
 
   .op3 {
     opacity: 0.3;
@@ -39,5 +43,42 @@
 
   to {
     transform: rotate(360deg);
+  }
+}
+
+.message {
+  min-width: 800px;
+  background: #545454;
+  margin: 20px 0;
+  padding: 10px 20px;
+  border-radius: 20px;
+
+  .author {
+    text-decoration: underline;
+    color: #959595;
+  }
+}
+
+.formMessage {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  align-items: center;
+
+  * {
+    width: 400px;
+    margin: 10px 0;
+    height: 30px;
+    font-size: 18px;
+  }
+
+  button {
+    width: 200px;
+    height: 40px;
+    border-radius: 40px;
+  }
+
+  input {
+    background-color: #ffffff;
   }
 }
