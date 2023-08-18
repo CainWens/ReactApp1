@@ -1,97 +1,40 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import TextField from '@mui/material/TextField';
-import Send from './Send';
-import ListMessage from './listMessage';
+import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
+import ChatsPage from './pages/Chat'
+import ProfilePage from './pages/Profile'
+import HomePage from './pages/Home'
+import Page404 from './pages/404'
+import Menu from './Menu'
+import Chat from './components/Message'
+
 
 import './App.scss';
 
 function App() {
 
-  const [messageList, setMessageList] = useState([])
-
-  const [messageBody, setMessageBody] = useState([
-    {
-      text: '',
-      author: ''
-    }
-  ])
-
   const ROBOT_MES = 'Привет. Скоро с вами свяжется оператор'
-
-  useEffect(() => {
-    if (messageList.length > 0 && messageList.slice(-1)[0].author !== 'robot') {
-      setTimeout(() => {
-        setMessageList(p => [...p, { text: ROBOT_MES, author: 'robot' }])
-      }, 1500)
-    }
-  }, [messageList])
 
   return (
     <div className="App-header">
-      <div className="App">
-        <div className='PageMessage'>
-          <ListMessage />
-          <div className='ViewMessage'>
-            <div className='mesBlock'>
-              {
-                messageList.map(e =>
-                  <div className="message">
-                    <p className='author'>Автор: {e.author}</p>
-                    <p>{e.text}</p>
-                  </div>)
-              }
-            </div>
-            {<Form data={messageBody} setData={setMessageBody} setMessage={setMessageList}></Form>}
+      <BrowserRouter>
+        <div className="App">
+          <>
+            <Menu />
+          </>
+          <div className='pages'>
+            <Routes>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/profile' element={<ProfilePage name={"Alex"} />} />
+              <Route path='chats' element={<ChatsPage />}>
+                <Route path=':chatId' element={<Chat />} />
+              </Route>
+              <Route path='*' element={<Page404 />} />
+            </Routes>
           </div>
         </div>
-      </div>
+      </BrowserRouter>
     </div>
   )
 }
 
 export default App;
-
-const Form = ({ data, setData, setMessage }) => {
-
-  const ref = useRef(null);
-  useEffect(() => {
-    if (ref.count) {
-      ref.current.focus()
-    }
-
-  }, [])
-
-  const { text, author } = data
-  const submitForm = (e) => {
-    e.preventDefault()
-    if (text.length > 0) {
-      setMessage(p => [...p, { text, author }])
-    }
-    setData(
-      {
-        text: '',
-        author: ''
-      }
-    )
-  }
-
-  return (
-    <form className='formMessage' onSubmit={submitForm}>
-
-      <TextField
-        ref={ref}
-        className='txtmes'
-        id="outlined-basic"
-        label="Сообщение"
-        variant="outlined"
-        value={text} onChange={(e) =>
-          setData(p => ({ ...p, author: "Alex", text: e.target.value })
-          )}
-      />
-
-      <Send />
-
-    </form>
-  )
-}
-
