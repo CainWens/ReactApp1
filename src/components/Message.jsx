@@ -22,7 +22,7 @@ const Message = ({ message }) => {
             <div className='mesBlock'>
                 {
                     messageList.map((e, i) =>
-                        <div className="message">
+                        <div className="message" key={i}>
                             <p className='author'>Автор: {e.author}</p>
                             <p>{e.text}</p>
                             <p>{e.date}</p>

@@ -1,11 +1,40 @@
-import { Link, Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { addChat, removeChat } from '../slices/slice'
+import { useState } from "react"
 import Messages from "../components/Message"
 
-const chatsPlaceholder = [
-    {
-        recipient: "Alex",
-        messages: [
+const Chats = () =>{
+    const chat = useSelector(state=>state.chat)
+    const messages = (state=>state.messages)
+    const dispatch = useDispatch()
+
+    const [currentChatId,setCurrentChatId] = useState(0)
+
+    const NewChat = {
+        id:'3',
+        recipient:"Oleg",
+        messages:[
+            {
+                author: 'Alex',
+                text: 'Привет',
+                date: new Date().toLocaleTimeString()
+            },
+            {
+                author: 'You',
+                text: 'И тебе привет',
+                date: new Date().toLocaleTimeString()
+            },
+            {
+                author: 'Alex',
+                text: 'Привет',
+                date: new Date().toLocaleTimeString()
+            },
+            {
+                author: 'You',
+                text: 'И тебе привет',
+                date: new Date().toLocaleTimeString()
+            },
             {
                 author: 'Alex',
                 text: 'Привет',
@@ -17,71 +46,38 @@ const chatsPlaceholder = [
                 date: new Date().toLocaleTimeString()
             },
         ]
-    },
-    {
-        recipient: "Jessica",
-        messages: [
-            {
-                author: 'Alex',
-                text: 'Привет',
-                date: new Date().toLocaleTimeString()
-            },
-            {
-                author: 'Alex',
-                text: 'Привет',
-                date: new Date().toLocaleTimeString()
-            },
-            {
-                author: 'Alex',
-                text: 'Привет',
-                date: new Date().toLocaleTimeString()
-            },
-            {
-                author: 'Alex',
-                text: 'Привет',
-                date: new Date().toLocaleTimeString()
-            },
-        ]
-    },
-]
+    }
+    //1.07
 
-const ChatsPage = () => {
-    const [chats, setChats] = useState(chatsPlaceholder)
-    const { chatId } = useParams()
+    const addChatHandler = () =>{
+        dispatch(addChat(NewChat))
+    }
+
+    const removeChatHandler = () =>{
+        dispatch(removeChat())
+    }
 
     return (
         <div className='PageMessage'>
             <div className='chatList'>
                 <h2>Чаты</h2>
                 <>
-                    <ChatList chats={chats} />
-                    <button onClick={() => {
-                        setChats(p => [...p, chatsPlaceholder[0]])
-                    }}>+</button>
+                    {
+                        chat.map(({recipient},id)=><div key={id}>
+                            <button onClick={() => {removeChatHandler()}}>❌</button>
+                            <div onClick={()=>{setCurrentChatId(id)}}>{recipient}</div>
+                        </div>
+                        )
+                    }
+                    <button onClick={() => {addChatHandler()}}>Добавить чат</button>
                 </>
             </div>
             {
-                chats[chatId] ? <Messages message={chats[chatId].messages
+                currentChatId && chat[currentChatId] ? <Messages message={chat[currentChatId].messages
                 } /> : <h2>Выберите чат</h2>
             }
         </div>
     )
 }
 
-const ChatList = ({ chats }) => {
-    return (
-        <>
-            {chats.map((e, id) =>
-                <div key={id}>
-                    <button onClick={() => {
-                        chats.splice(id)
-                    }}>❌</button>
-                    <Link to={`${id}`}>{e.recipient}</Link>
-                </div>
-            )}
-        </>
-    )
-}
-
-
-export default ChatsPage
+export default Chats
